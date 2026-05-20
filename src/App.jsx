@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
-
+import Showcase3D from "./components/Showcase3D";
 
 const problemCards = [
   {
@@ -278,7 +278,7 @@ function App() {
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="absolute -left-12 top-6 flex h-10 w-5 ml-5 items-center justify-center border border-sky-400/20 bg-sky-900 text-sky-300 shadow-lg backdrop-blur-xl transition hover:bg-sky-500/10 rounded-[5px] transition-all duration-300"
-          title={sidebarOpen ? `${<FaArrowLeft/>}` : "Expand Sidebar"}
+          title={sidebarOpen ? `${(<FaArrowLeft />)}` : "Expand Sidebar"}
         >
           {sidebarOpen ? "→" : "←"}
         </button>
@@ -478,6 +478,9 @@ function App() {
             </motion.div>
           </div>
         </section>
+
+        {/* 3D scroll-driven product showcase inserted immediately after hero */}
+        <Showcase3D />
 
         <section
           id="problem"
