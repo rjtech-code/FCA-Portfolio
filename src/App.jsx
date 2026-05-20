@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion";
+import { FaArrowLeft } from "react-icons/fa";
+
 
 const problemCards = [
   {
@@ -129,9 +132,58 @@ const floatCard = {
   },
 };
 
+function FloatingBox({ position, rotationSpeed, color }) {
+  const ref = useRef();
+  useFrame((state) => {
+    if (ref.current) {
+      ref.current.rotation.x += rotationSpeed[0];
+      ref.current.rotation.y += rotationSpeed[1];
+      ref.current.position.y =
+        position[1] + Math.sin(state.clock.elapsedTime + position[0]) * 0.28;
+    }
+  });
+  return (
+    <mesh ref={ref} position={position} castShadow receiveShadow>
+      <boxGeometry args={[1.1, 1.1, 1.1]} />
+      <meshStandardMaterial color={color} metalness={0.35} roughness={0.15} />
+    </mesh>
+  );
+}
+
+function BackgroundScene() {
+  return (
+    <Canvas camera={{ position: [0, 0, 8], fov: 35 }} className="h-full w-full">
+      <ambientLight intensity={0.75} />
+      <directionalLight position={[2, 4, 5]} intensity={1.1} />
+      <directionalLight position={[-4, -2, -4]} intensity={0.35} />
+      <FloatingBox
+        position={[-1.2, 0.6, 0]}
+        rotationSpeed={[0.006, 0.008]}
+        color="#38bdf8"
+      />
+      <FloatingBox
+        position={[1.4, -0.7, -0.5]}
+        rotationSpeed={[0.005, -0.007]}
+        color="#22d3ee"
+      />
+      <FloatingBox
+        position={[0.2, 1.0, -1]}
+        rotationSpeed={[-0.007, 0.005]}
+        color="#60a5fa"
+      />
+      <FloatingBox
+        position={[-2.0, -1.1, -0.8]}
+        rotationSpeed={[0.007, 0.004]}
+        color="#7dd3fc"
+      />
+    </Canvas>
+  );
+}
+
 function App() {
   const [loaded, setLoaded] = useState(false);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 850);
@@ -159,6 +211,11 @@ function App() {
             Building a futuristic school attendance experience.
           </p>
         </div>
+      </div>
+
+      <div className="pointer-events-none absolute inset-0 -z-20 opacity-60">
+        <BackgroundScene />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(15,23,42,0.75),transparent_55%)]" />
       </div>
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -212,6 +269,40 @@ function App() {
           </a>
         </div>
       </header>
+
+      <motion.div
+        animate={{ x: sidebarOpen ? 0 : 300 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        className="hidden xl:fixed xl:right-6 xl:top-32 xl:z-30 xl:w-72 xl:flex xl:flex-col xl:gap-4"
+      >
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="absolute -left-12 top-6 flex h-10 w-5 ml-5 items-center justify-center border border-sky-400/20 bg-sky-900 text-sky-300 shadow-lg backdrop-blur-xl transition hover:bg-sky-500/10 rounded-[5px] transition-all duration-300"
+          title={sidebarOpen ? `${<FaArrowLeft/>}` : "Expand Sidebar"}
+        >
+          {sidebarOpen ? "→" : "←"}
+        </button>
+
+        <div className="glass-card relative rounded-[32px] border border-sky-400/20 bg-slate-950/90 p-5 shadow-[0_35px_90px_rgba(15,23,42,0.35)] backdrop-blur-xl">
+          <p className="text-xs uppercase tracking-[0.32em] text-sky-300">
+            Technical cluster
+          </p>
+          <h3 className="mt-4 text-lg font-semibold text-white">
+            Realtime FRAS stack
+          </h3>
+          <ul className="mt-5 space-y-3 text-sm text-slate-300">
+            <li className="rounded-3xl border border-white/10 bg-slate-900/80 px-3 py-3">
+              AI inference • Face match
+            </li>
+            <li className="rounded-3xl border border-white/10 bg-slate-900/80 px-3 py-3">
+              CCTV / IP camera feed
+            </li>
+            <li className="rounded-3xl border border-white/10 bg-slate-900/80 px-3 py-3">
+              Secure logs + audit
+            </li>
+          </ul>
+        </div>
+      </motion.div>
 
       <main className="relative">
         <section
