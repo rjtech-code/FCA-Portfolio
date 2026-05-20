@@ -3,7 +3,6 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 
-
 const problemCards = [
   {
     title: "Proxy attendance",
