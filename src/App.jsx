@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
-import Showcase3D from "./components/Showcase3D";
+import ScrollVideo from "./components/Showcase3D";
 
 const problemCards = [
   {
@@ -380,10 +380,13 @@ function App() {
               <div className="relative overflow-hidden rounded-[42px] border border-white/10 bg-slate-950/90 p-6 shadow-[0_45px_120px_rgba(14,165,233,0.2)]">
                 <div className="absolute left-8 top-8 h-24 w-24 rounded-full bg-sky-500/10 blur-3xl" />
                 <div className="absolute right-8 top-16 h-16 w-16 rounded-full bg-cyan-400/15 blur-2xl" />
-                <img
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSYjEjf8Ch-SRk09n0UmGJwGNwW_v-w4n9Dg&s"
-                  alt=""
-                  className="rounded-2xl w-full mb-5"
+                <video
+                  src="/Images/frs port-folio video.mp4"
+                  className="rounded-2xl w-full mb-5 aspect-video object-cover"
+  
+                  muted
+                  autoPlay
+                  loop
                 />
                 <div className="relative rounded-[32px] border border-slate-800/80 bg-slate-950/95 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
                   <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
@@ -478,9 +481,6 @@ function App() {
             </motion.div>
           </div>
         </section>
-
-        {/* 3D scroll-driven product showcase inserted immediately after hero */}
-        <Showcase3D />
 
         <section
           id="problem"
