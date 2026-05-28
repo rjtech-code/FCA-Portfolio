@@ -2,10 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
-<<<<<<< HEAD
-import ScrollVideo from "./components/Showcase3D";
-=======
->>>>>>> refs/remotes/origin/main
 
 const problemCards = [
   {
@@ -125,6 +121,16 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
+const floatCard = {
+  hidden: { opacity: 0, y: 20, scale: 0.96 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 1, ease: "easeOut" },
+  },
+};
+
 function FloatingBox({ position, rotationSpeed, color }) {
   const ref = useRef();
   useFrame((state) => {
@@ -171,8 +177,8 @@ function BackgroundScene() {
       />
     </Canvas>
   );
-} 
-  
+}
+
 function App() {
   const [loaded, setLoaded] = useState(false);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
