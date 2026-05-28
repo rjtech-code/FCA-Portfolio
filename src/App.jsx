@@ -121,16 +121,6 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
 };
 
-const floatCard = {
-  hidden: { opacity: 0, y: 20, scale: 0.96 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 1, ease: "easeOut" },
-  },
-};
-
 function FloatingBox({ position, rotationSpeed, color }) {
   const ref = useRef();
   useFrame((state) => {
