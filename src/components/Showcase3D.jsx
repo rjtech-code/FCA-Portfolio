@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-// mp_.mp4
-// Register ScrollTrigger with GSAP
 gsap.registerPlugin(ScrollTrigger);
 
 const ScrollVideo = () => {
