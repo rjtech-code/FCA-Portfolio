@@ -171,8 +171,8 @@ function BackgroundScene() {
       />
     </Canvas>
   );
-}
-
+} 
+  
 function App() {
   const [loaded, setLoaded] = useState(false);
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
