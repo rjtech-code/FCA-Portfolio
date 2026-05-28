@@ -2,7 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { motion } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
+<<<<<<< HEAD
 import ScrollVideo from "./components/Showcase3D";
+=======
+>>>>>>> refs/remotes/origin/main
 
 const problemCards = [
   {
