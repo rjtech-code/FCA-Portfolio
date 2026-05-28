@@ -383,7 +383,6 @@ function App() {
                 <video
                   src="/Images/frs port-folio video.mp4"
                   className="rounded-2xl w-full mb-5 aspect-video object-cover"
-  
                   muted
                   autoPlay
                   loop
