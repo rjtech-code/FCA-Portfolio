@@ -4,8 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const ScrollVideo = () => {
-  const containerRef = useRef(null);
-  const videoRef = useRef(null);
+const containerRef = useRef(null);
+const videoRef = useRef(null);
 
   useEffect(() => {
     const video = videoRef.current;
