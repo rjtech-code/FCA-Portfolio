@@ -7,12 +7,11 @@ const ScrollVideo = () => {
 const containerRef = useRef(null);
 const videoRef = useRef(null);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    const container = containerRef.current;
+useEffect(() => {
+const video = videoRef.current;
+const container = containerRef.current;
 
-    // Start the animation once video metadata (duration, etc.) has loaded
-    const handleLoadedMetadata = () => {
+const handleLoadedMetadata = () => {
       // Create the GSAP timeline
       let tl = gsap.timeline({
         scrollTrigger: {
