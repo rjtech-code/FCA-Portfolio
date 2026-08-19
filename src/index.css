@@ -5,75 +5,129 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  --background: #ffffff;
+  --surface: #f7f7f7;
+  --surface-raised: #ffffff;
+  --surface-soft: #f0f0f0;
+  --foreground: #111111;
+  --muted-foreground: #666666;
+  --subtle-foreground: #767676;
+  --border: #e5e5e5;
+  --border-strong: #d4d4d4;
+  --primary: #e85f00;
+  --primary-hover: #c94f00;
+  --primary-foreground: #ffffff;
+  --accent-rgb: 232, 95, 0;
+  color-scheme: light;
   font-family: "Inter", system-ui, sans-serif;
-  background: #020617;
-  color: #e2e8f0;
-  font-feature-settings:
-    "cv02" 1,
-    "cv04" 1;
+  background: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02" 1, "cv04" 1;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  scroll-behavior: smooth;
+:root[data-theme="dark"] {
+  --background: #0a0a0a;
+  --surface: #111111;
+  --surface-raised: #171717;
+  --surface-soft: #202020;
+  --foreground: #ffffff;
+  --muted-foreground: #a3a3a3;
+  --subtle-foreground: #737373;
+  --border: #292929;
+  --border-strong: #3a3a3a;
+  --primary: #ff6a00;
+  --primary-hover: #ff7a1a;
+  --primary-foreground: #ffffff;
+  --accent-rgb: 255, 106, 0;
+  color-scheme: dark;
 }
+
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(56, 189, 248, 0.08), transparent 24%),
-    radial-gradient(circle at right, rgba(56, 189, 248, 0.12), transparent 18%),
-    linear-gradient(180deg, #020617 0%, #020814 100%);
+    radial-gradient(circle at 85% 0%, rgb(var(--accent-rgb) / 0.07), transparent 25%),
+    var(--background);
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
-#root {
-  min-height: 100vh;
-}
+#root { min-height: 100vh; }
 
-input,
-textarea,
-button {
-  font: inherit;
-}
+input, textarea, button { font: inherit; }
+button { cursor: pointer; }
 
-button {
-  cursor: pointer;
-}
+/* Existing Tailwind utilities are mapped to semantic tokens so every visible
+   surface responds to the selected theme without duplicating component styles. */
+[data-theme] [class*="bg-slate-950"] { background-color: var(--background) !important; }
+[data-theme] [class*="bg-slate-900"] { background-color: var(--surface) !important; }
+[data-theme] [class*="bg-slate-800"] { background-color: var(--surface-soft) !important; }
+[data-theme] [class*="from-slate-"] { --tw-gradient-from: var(--surface) var(--tw-gradient-from-position) !important; --tw-gradient-to: color-mix(in srgb, var(--surface), transparent) var(--tw-gradient-to-position) !important; }
+[data-theme] [class*="via-slate-"] { --tw-gradient-via: var(--surface-soft) var(--tw-gradient-via-position) !important; }
+[data-theme] [class*="to-slate-"] { --tw-gradient-to: var(--surface-raised) var(--tw-gradient-to-position) !important; }
+[data-theme] [class*="text-slate-950"] { color: var(--primary-foreground) !important; }
+[data-theme] [class*="text-slate-50"],
+[data-theme] [class*="text-white"],
+[data-theme] [class*="text-slate-100"],
+[data-theme] [class*="text-slate-200"] { color: var(--foreground) !important; }
+[data-theme] [class*="text-slate-300"],
+[data-theme] [class*="text-slate-400"] { color: var(--muted-foreground) !important; }
+[data-theme] [class*="text-slate-500"] { color: var(--subtle-foreground) !important; }
+[data-theme] [class*="text-sky-"] { color: var(--primary) !important; }
+[data-theme] [class*="border-white"],
+[data-theme] [class*="border-slate-700"],
+[data-theme] [class*="border-slate-800"],
+[data-theme] [class*="border-slate-500"] { border-color: var(--border) !important; }
 
 .glass-card {
-  background: rgba(10, 23, 48, 0.82);
-  backdrop-filter: blur(24px);
+  background: color-mix(in srgb, var(--surface-raised) 92%, transparent) !important;
+  border-color: var(--border) !important;
+  backdrop-filter: blur(14px);
 }
 
 .input-field {
   width: 100%;
-  border: 1px solid rgba(148, 163, 184, 0.12);
-  background: rgba(15, 23, 42, 0.9);
-  color: #e2e8f0;
-  border-radius: 1rem;
+  border: 1px solid var(--border-strong);
+  background: var(--surface-raised);
+  color: var(--foreground);
+  border-radius: 0.9rem;
   padding: 1rem 1.1rem;
   outline: none;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
+.input-field::placeholder { color: var(--subtle-foreground); }
 .input-field:focus {
-  border-color: rgba(56, 189, 248, 0.7);
-  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.12);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgb(var(--accent-rgb) / 0.14);
 }
 
-::selection {
-  background: rgba(56, 189, 248, 0.25);
-  color: #ffffff;
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
 }
+
+::selection { background: rgb(var(--accent-rgb) / 0.28); color: var(--foreground); }
 
 @media (max-width: 768px) {
-  .glass-card {
-    border-radius: 2rem;
+  .glass-card { border-radius: 1.5rem; }
+}
+
+@media (max-width: 640px) {
+  body { overflow-x: hidden; }
+
+  main > section:not(#hero) {
+    padding: 4rem 1rem;
+  }
+
+  main > section { scroll-margin-top: 5rem; }
+
+  .input-field {
+    border-radius: 0.75rem;
+    padding: 0.9rem 1rem;
   }
 }
