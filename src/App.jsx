@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
+
 const problemCards = [
   {
     title: "Proxy attendance",
