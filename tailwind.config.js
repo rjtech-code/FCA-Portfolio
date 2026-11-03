@@ -1,5 +1,5 @@
 export default {
-  darkMode: 'class',
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -18,6 +18,18 @@ export default {
           800: "#9a3412",
           900: "#7c2d12",
         },
+        // Vultus Go (vultusgo.in) theme colours — values come from CSS
+        // variables in index.css so the light/dark toggle keeps working.
+        page: "rgb(var(--c-page) / <alpha-value>)",
+        card: "rgb(var(--c-card) / <alpha-value>)",
+        tile: "rgb(var(--c-tile) / <alpha-value>)",
+        soft: "rgb(var(--c-soft) / <alpha-value>)",
+        fg: {
+          DEFAULT: "rgb(var(--c-fg) / <alpha-value>)",
+          muted: "rgb(var(--c-fg-muted) / <alpha-value>)",
+          subtle: "rgb(var(--c-fg-subtle) / <alpha-value>)",
+        },
+        line: "rgb(var(--c-line) / <alpha-value>)",
         brand: {
           950: "#0a0a0a",
           900: "#111111",

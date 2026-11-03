@@ -5,86 +5,102 @@
 @tailwind utilities;
 
 :root {
+  /* Vultus Go palette (vultusgo.in): white + zinc surfaces, orange #f97316 */
   --background: #ffffff;
-  --surface: #f7f7f7;
+  --surface: #fafafa;
   --surface-raised: #ffffff;
-  --surface-soft: #f0f0f0;
-  --foreground: #111111;
-  --muted-foreground: #666666;
-  --subtle-foreground: #767676;
-  --border: #e5e5e5;
-  --border-strong: #d4d4d4;
-  --primary: #e85f00;
-  --primary-hover: #c94f00;
+  --surface-soft: #f4f4f5;
+  --foreground: #000000;
+  --muted-foreground: #71717a;
+  --subtle-foreground: #a1a1aa;
+  --border: #e4e4e7;
+  --border-strong: #d4d4d8;
+  --primary: #f97316;
+  --primary-hover: #ea580c;
   --primary-foreground: #ffffff;
-  --accent-rgb: 232, 95, 0;
+  --accent-rgb: 249, 115, 22;
+  --c-page: 255 255 255;
+  --c-card: 250 250 250;
+  --c-tile: 255 255 255;
+  --c-soft: 244 244 245;
+  --c-fg: 0 0 0;
+  --c-fg-muted: 113 113 122;
+  --c-fg-subtle: 161 161 170;
+  --c-line: 228 228 231;
   color-scheme: light;
   font-family: "Inter", system-ui, sans-serif;
   background: var(--background);
   color: var(--foreground);
-  font-feature-settings: "cv02" 1, "cv04" 1;
+  font-feature-settings:
+    "cv02" 1,
+    "cv04" 1;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 :root[data-theme="dark"] {
-  --background: #0a0a0a;
-  --surface: #111111;
-  --surface-raised: #171717;
-  --surface-soft: #202020;
+  --background: #000000;
+  --surface: #18181b;
+  --surface-raised: #18181b;
+  --surface-soft: #27272a;
   --foreground: #ffffff;
-  --muted-foreground: #a3a3a3;
-  --subtle-foreground: #737373;
-  --border: #292929;
-  --border-strong: #3a3a3a;
-  --primary: #ff6a00;
-  --primary-hover: #ff7a1a;
+  --muted-foreground: #a1a1aa;
+  --subtle-foreground: #71717a;
+  --border: #27272a;
+  --border-strong: #3f3f46;
+  --primary: #f97316;
+  --primary-hover: #fb923c;
   --primary-foreground: #ffffff;
-  --accent-rgb: 255, 106, 0;
+  --accent-rgb: 249, 115, 22;
+  --c-page: 0 0 0;
+  --c-card: 24 24 27;
+  --c-tile: 39 39 42;
+  --c-soft: 39 39 42;
+  --c-fg: 255 255 255;
+  --c-fg-muted: 161 161 170;
+  --c-fg-subtle: 113 113 122;
+  --c-line: 39 39 42;
   color-scheme: dark;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 85% 0%, rgb(var(--accent-rgb) / 0.07), transparent 25%),
+  background: radial-gradient(
+      circle at 85% 0%,
+      rgb(var(--accent-rgb) / 0.07),
+      transparent 25%
+    ),
     var(--background);
-  transition: background-color 180ms ease, color 180ms ease;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
-#root { min-height: 100vh; }
+#root {
+  min-height: 100vh;
+}
 
-input, textarea, button { font: inherit; }
-button { cursor: pointer; }
-
-/* Existing Tailwind utilities are mapped to semantic tokens so every visible
-   surface responds to the selected theme without duplicating component styles. */
-[data-theme] [class*="bg-slate-950"] { background-color: var(--background) !important; }
-[data-theme] [class*="bg-slate-900"] { background-color: var(--surface) !important; }
-[data-theme] [class*="bg-slate-800"] { background-color: var(--surface-soft) !important; }
-[data-theme] [class*="from-slate-"] { --tw-gradient-from: var(--surface) var(--tw-gradient-from-position) !important; --tw-gradient-to: color-mix(in srgb, var(--surface), transparent) var(--tw-gradient-to-position) !important; }
-[data-theme] [class*="via-slate-"] { --tw-gradient-via: var(--surface-soft) var(--tw-gradient-via-position) !important; }
-[data-theme] [class*="to-slate-"] { --tw-gradient-to: var(--surface-raised) var(--tw-gradient-to-position) !important; }
-[data-theme] [class*="text-slate-950"] { color: var(--primary-foreground) !important; }
-[data-theme] [class*="text-slate-50"],
-[data-theme] [class*="text-white"],
-[data-theme] [class*="text-slate-100"],
-[data-theme] [class*="text-slate-200"] { color: var(--foreground) !important; }
-[data-theme] [class*="text-slate-300"],
-[data-theme] [class*="text-slate-400"] { color: var(--muted-foreground) !important; }
-[data-theme] [class*="text-slate-500"] { color: var(--subtle-foreground) !important; }
-[data-theme] [class*="text-sky-"] { color: var(--primary) !important; }
-[data-theme] [class*="border-white"],
-[data-theme] [class*="border-slate-700"],
-[data-theme] [class*="border-slate-800"],
-[data-theme] [class*="border-slate-500"] { border-color: var(--border) !important; }
+input,
+textarea,
+button {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+}
 
 .glass-card {
-  background: color-mix(in srgb, var(--surface-raised) 92%, transparent) !important;
+  background: color-mix(
+    in srgb,
+    var(--surface-raised) 92%,
+    transparent
+  ) !important;
   border-color: var(--border) !important;
   backdrop-filter: blur(14px);
 }
@@ -97,34 +113,51 @@ button { cursor: pointer; }
   border-radius: 0.9rem;
   padding: 1rem 1.1rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
-.input-field::placeholder { color: var(--subtle-foreground); }
+.input-field::placeholder {
+  color: var(--subtle-foreground);
+}
 .input-field:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px rgb(var(--accent-rgb) / 0.14);
 }
 
-a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 3px;
 }
 
-::selection { background: rgb(var(--accent-rgb) / 0.28); color: var(--foreground); }
+::selection {
+  background: rgb(var(--accent-rgb) / 0.28);
+  color: var(--foreground);
+}
 
 @media (max-width: 768px) {
-  .glass-card { border-radius: 1.5rem; }
+  .glass-card {
+    border-radius: 1.5rem;
+  }
 }
 
 @media (max-width: 640px) {
-  body { overflow-x: hidden; }
+  body {
+    overflow-x: hidden;
+  }
 
   main > section:not(#hero) {
     padding: 4rem 1rem;
   }
 
-  main > section { scroll-margin-top: 5rem; }
+  main > section {
+    scroll-margin-top: 5rem;
+  }
 
   .input-field {
     border-radius: 0.75rem;
