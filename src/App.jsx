@@ -101,6 +101,9 @@ const SAVING_PERCENT = Math.round(
 ); // 92%
 const formatINR = (value) => `₹${Math.round(value).toLocaleString("en-IN")}`;
 
+// The shared RJ Portfolio API stores and manages inquiries for all Vultus Go properties.
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://rj-portfolio-rt3u.onrender.com").replace(/\\/+$/, "");
+
 const planFeatures = [
   "Face attendance for every student",
   "Liveness & anti-spoofing checks",
@@ -325,6 +328,9 @@ function App() {
   const [videoReady, setVideoReady] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [students, setStudents] = useState(500);
+  const [inquiry, setInquiry] = useState({ name: "", email: "", organization: "", message: "" });
+  const [inquiryStatus, setInquiryStatus] = useState("idle");
+  const [inquiryMessage, setInquiryMessage] = useState("");
   const studentCount = Math.max(0, Number(students) || 0);
   const vultusYearly = studentCount * PRICE_PER_STUDENT_YEAR;
   const oldToolYearly = studentCount * OLD_TOOL_PER_STUDENT_YEAR;
@@ -349,6 +355,41 @@ function App() {
   }, [theme]);
 
   const toggleTheme = () => setTheme((t) => (t === "dark" ? "light" : "dark"));
+
+  const submitInquiry = async (event) => {
+    event.preventDefault();
+    setInquiryStatus("submitting");
+    setInquiryMessage("");
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: inquiry.name.trim(),
+          email: inquiry.email.trim(),
+          organization: inquiry.organization.trim(),
+          details: inquiry.message.trim(),
+          projectType: "Other",
+          inquiryType: "product_site_contact",
+          sourceDomain: window.location.hostname,
+          productName: "Vultus Go Facial Recognition Attendance",
+        }),
+      });
+      let data = {};
+      try { data = await response.json(); } catch { /* API may return an empty response */ }
+      if (!response.ok) throw new Error(data.message || `Submission failed (${response.status}).`);
+      setInquiryStatus("success");
+      setInquiryMessage(data.message || "Your inquiry has been received. Our team will contact you soon.");
+      setInquiry({ name: "", email: "", organization: "", message: "" });
+    } catch (error) {
+      setInquiryStatus("error");
+      setInquiryMessage(error.message || "Unable to send your inquiry. Please try again.");
+    }
+  };
+
+  const updateInquiryField = (field) => (event) => {
+    setInquiry((current) => ({ ...current, [field]: event.target.value }));
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 2200);
@@ -1789,6 +1830,7 @@ function App() {
                 </div>
               </motion.div>
               <motion.form
+                onSubmit={submitInquiry}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.35 }}
@@ -1798,35 +1840,32 @@ function App() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block space-y-2 text-sm text-fg-muted">
                     <span>Name</span>
-                    <input className="input-field" placeholder="Your name" />
+                    <input className="input-field" name="name" autoComplete="name" maxLength={100} required value={inquiry.name} onChange={updateInquiryField("name")} placeholder="Your name" />
                   </label>
                   <label className="block space-y-2 text-sm text-fg-muted">
                     <span>Email</span>
-                    <input
-                      className="input-field"
-                      placeholder="school@fras.ai"
-                    />
+                    <input className="input-field" name="email" type="email" autoComplete="email" maxLength={254} required value={inquiry.email} onChange={updateInquiryField("email")} placeholder="school@example.com" />
                   </label>
                 </div>
                 <label className="block space-y-2 text-sm text-fg-muted">
                   <span>School / Organization</span>
-                  <input
-                    className="input-field"
-                    placeholder="School / organization name"
-                  />
+                  <input className="input-field" name="organization" autoComplete="organization" maxLength={200} value={inquiry.organization} onChange={updateInquiryField("organization")} placeholder="School / organization name" />
                 </label>
                 <label className="block space-y-2 text-sm text-fg-muted">
                   <span>Message</span>
-                  <textarea
-                    className="input-field min-h-[160px] resize-none"
-                    placeholder="Tell us about your attendance goals..."
-                  />
+                  <textarea className="input-field min-h-[160px] resize-none" name="message" maxLength={5000} required value={inquiry.message} onChange={updateInquiryField("message")} placeholder="Tell us about your attendance goals..." />
                 </label>
+                {inquiryMessage && (
+                  <p role={inquiryStatus === "error" ? "alert" : "status"} className={`rounded-xl border px-4 py-3 text-sm ${inquiryStatus === "error" ? "border-red-400/30 bg-red-500/10 text-red-300" : "border-emerald-400/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"}`}>
+                    {inquiryMessage}
+                  </p>
+                )}
                 <button
-                  type="button"
-                  className="inline-flex w-full items-center justify-center rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-sky-600"
+                  type="submit"
+                  disabled={inquiryStatus === "submitting"}
+                  className="inline-flex w-full items-center justify-center rounded-full bg-sky-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-sky-600 disabled:cursor-wait disabled:opacity-60"
                 >
-                  Send Inquiry
+                  {inquiryStatus === "submitting" ? "Sending..." : inquiryStatus === "success" ? "Send Another Inquiry" : "Send Inquiry"}
                 </button>
               </motion.form>
             </div>
