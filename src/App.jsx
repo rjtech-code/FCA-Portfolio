@@ -19,9 +19,15 @@ import {
   LuVolumeX,
   LuX,
   LuMail,
+  LuMapPin,
   LuPhone,
 } from "react-icons/lu";
-import { FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import {
+  FaGithub,
+  FaInstagram,
+  FaLinkedinIn,
+  FaXTwitter,
+} from "react-icons/fa6";
 
 const problemCards = [
   {
@@ -235,6 +241,76 @@ const socialLinks = [
     href: "https://www.instagram.com/vultusgo",
     icon: FaInstagram,
   },
+];
+
+// Footer content mirrors the official site footer (vultusgo.in)
+const MAIN_SITE = "https://www.vultusgo.in";
+
+const footerColumns = [
+  {
+    title: "Company",
+    links: [
+      ["Home", `${MAIN_SITE}/`],
+      ["About", `${MAIN_SITE}/about`],
+      ["Services", `${MAIN_SITE}/services`],
+      ["Products", `${MAIN_SITE}/products`],
+      ["Contact", `${MAIN_SITE}/contact`],
+    ],
+  },
+  {
+    title: "Services",
+    links: [
+      ["Web Development", `${MAIN_SITE}/services/web-development`],
+      ["Mobile Apps", `${MAIN_SITE}/services/mobile-app-development`],
+      ["Custom Software", `${MAIN_SITE}/services/custom-software-development`],
+      ["AI & Machine Learning", `${MAIN_SITE}/services/ai-machine-learning`],
+      ["UI/UX Design", `${MAIN_SITE}/services/ui-ux-design`],
+    ],
+  },
+  {
+    title: "Products",
+    links: [
+      ["Facial Recognition Attendance", "#hero"],
+      ["Pricing · ₹70 / student / year", "#pricing"],
+      ["Compare with old tools", "#compare"],
+      ["All Products", `${MAIN_SITE}/products`],
+    ],
+  },
+];
+
+const footerSocials = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/vultusgo",
+    icon: FaLinkedinIn,
+  },
+  { label: "GitHub", href: "https://github.com/vultusgo", icon: FaGithub },
+  {
+    label: "X (Twitter)",
+    href: "https://twitter.com/vultusgo",
+    icon: FaXTwitter,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/vultusgo",
+    icon: FaInstagram,
+  },
+];
+
+const footerContacts = [
+  {
+    label: "Email",
+    value: "vultusgo@gmail.com",
+    href: "mailto:vultusgo@gmail.com",
+    icon: LuMail,
+  },
+  {
+    label: "Phone",
+    value: "+91 9664373310",
+    href: "tel:+919664373310",
+    icon: LuPhone,
+  },
+  { label: "Location", value: "Churu, Rajasthan 331001", icon: LuMapPin },
 ];
 
 const fadeUp = {
@@ -1758,25 +1834,122 @@ function App() {
         </section>
       </main>
 
-      <footer className="border-t border-zinc-800 bg-[#0a0a0b] px-6 py-8 text-zinc-400">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
-          <p>
-            © 2026 Vultus Go — AI-Powered Facial Recognition Attendance System
-            · ₹70 per student / year.
-          </p>
-          <div className="flex items-center gap-4 text-sm">
-            <a href="#hero" className="transition hover:text-white">
-              Terms
-            </a>
-            <a href="#hero" className="transition hover:text-white">
-              Privacy
-            </a>
-            <a
-              href="mailto:vultusgo@gmail.com"
-              className="transition hover:text-white"
-            >
-              Support
-            </a>
+      <footer className="relative overflow-hidden border-t border-zinc-800 bg-[#0a0a0b] px-6 pb-8 pt-16 text-zinc-400 sm:pt-20">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+            <div className="lg:col-span-2">
+              <a
+                href="#hero"
+                className="mb-5 inline-flex items-center gap-3"
+                aria-label="Vultus Go home"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-lg font-bold text-white">
+                  V<span className="text-sky-400">G</span>
+                </span>
+                <span className="text-xl font-bold tracking-tight text-white">
+                  Vultus<span className="text-sky-400">Go</span>
+                </span>
+              </a>
+              <p className="mb-6 max-w-sm text-sm leading-relaxed text-zinc-400">
+                Vultus Go is an AI and technology company building intelligent
+                software that helps organizations automate, secure, and grow.
+                Face attendance at just ₹70 per student / year.
+              </p>
+              <div className="flex gap-3">
+                {footerSocials.map(({ label, href, icon: Icon }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-400 transition hover:border-sky-400/60 hover:bg-sky-500 hover:text-white"
+                  >
+                    <Icon aria-hidden="true" className="h-4 w-4" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {footerColumns.map((column) => (
+              <div key={column.title}>
+                <p className="mb-5 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-zinc-300">
+                  {column.title}
+                </p>
+                <ul className="space-y-3">
+                  {column.links.map(([label, href]) => (
+                    <li key={label}>
+                      <a
+                        href={href}
+                        {...(href.startsWith("http")
+                          ? { target: "_blank", rel: "noreferrer" }
+                          : {})}
+                        className="text-sm text-zinc-400 transition-colors hover:text-sky-400"
+                      >
+                        {label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-8 grid grid-cols-1 gap-6 border-t border-white/10 py-8 md:grid-cols-3">
+            {footerContacts.map(({ label, value, href, icon: Icon }) => {
+              const content = (
+                <>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-sky-400 transition group-hover:border-sky-500 group-hover:bg-sky-500 group-hover:text-white">
+                    <Icon aria-hidden="true" className="h-4 w-4" />
+                  </span>
+                  <span>
+                    <span className="block font-mono text-[11px] uppercase tracking-[0.15em] text-zinc-500">
+                      {label}
+                    </span>
+                    <span className="block break-all text-sm text-zinc-300 transition group-hover:text-white">
+                      {value}
+                    </span>
+                  </span>
+                </>
+              );
+              return href ? (
+                <a
+                  key={label}
+                  href={href}
+                  className="group flex items-center gap-3"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div key={label} className="group flex items-center gap-3">
+                  {content}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-zinc-500 md:flex-row">
+            <p>© {new Date().getFullYear()} Vultus Go. All rights reserved.</p>
+            <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+              <a
+                href="https://www.vultusgo.in/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-zinc-300 transition-colors hover:text-sky-400"
+              >
+                Main site · vultusgo.in
+                <LuArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href="https://dev.vultusgo.in"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider text-zinc-300 transition-colors hover:text-sky-400"
+              >
+                Dev Studio · dev.vultusgo.in
+                <LuArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+              </a>
+            </div>
           </div>
         </div>
       </footer>
