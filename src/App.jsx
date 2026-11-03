@@ -102,7 +102,7 @@ const SAVING_PERCENT = Math.round(
 const formatINR = (value) => `₹${Math.round(value).toLocaleString("en-IN")}`;
 
 // The shared RJ Portfolio API stores and manages inquiries for all Vultus Go properties.
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://rj-portfolio-rt3u.onrender.com").replace(/\\/+$/, "");
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://rj-portfolio-rt3u.onrender.com").replace(/\/+$/, "");
 
 const planFeatures = [
   "Face attendance for every student",
